@@ -30,13 +30,25 @@ from mudserver import MudServer
 # structure defining the rooms in the game. Try adding more rooms to the game!
 rooms = {
     "Tavern": {
-        "description": "You're in a cozy tavern warmed by an open fire.",
-        "exits": {"outside": "Outside"},
+        "description": "You're in a cozy tavern warmed by an open fire. A desk is forward you, but no one's there.",
+        "exits": {"outside": "Outside", "upstairs": "Upstairs"},
     },
     "Outside": {
         "description": "You're standing outside a tavern. It's raining.",
         "exits": {"inside": "Tavern"},
-    }
+    },
+    "Upstairs": {
+        "description": "You are standing in front of 6 rooms, but all of them are hired. An window is open.",
+        "exits": {"Jump out of the window": "Sewer"},
+    },
+    "Sewer": {
+        "description": "You fell into a sewer, where the water drops from the roof. There's no ladder to climb up on.",
+        "exits": {"vent": "Secret_room"},
+    },
+    "Secret_room": {
+        "description": "No description",
+        "exits": {"vent": "Sewer"},
+    },
 }
 
 # stores the players in the game
