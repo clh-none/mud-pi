@@ -57,6 +57,19 @@ players = {}
 # start the server
 mud = MudServer()
 
+def add_new_player(id):
+    # add the new player to the dictionary, noting that they've not been
+    # named yet.
+    # The dictionary key is the player's id number. We set their room to
+    # None initially until they have entered a name
+    # Try adding more player stats - level, gold, inventory, etc
+    players[id] = {
+        "name": None,
+        "room": None,
+    }
+    # send the new player a prompt for their name
+    mud.send_message(id, "What is your name?")
+
 # main game loop. We loop forever (i.e. until the program is terminated)
 while True:
 
@@ -71,18 +84,7 @@ while True:
     # go through any newly connected players
     for id in mud.get_new_players():
 
-        # add the new player to the dictionary, noting that they've not been
-        # named yet.
-        # The dictionary key is the player's id number. We set their room to
-        # None initially until they have entered a name
-        # Try adding more player stats - level, gold, inventory, etc
-        players[id] = {
-            "name": None,
-            "room": None,
-        }
-
-        # send the new player a prompt for their name
-        mud.send_message(id, "What is your name?")
+        add_new_player(id)
 
     # go through any recently disconnected players
     for id in mud.get_disconnected_players():
@@ -139,14 +141,16 @@ while True:
 
             # send the player back the list of possible commands
             mud.send_message(id, "Commands:")
-            mud.send_message(id, "  say <message>  - Says something out loud, "
+            mud.send_message(id, "  say <message>   - Says something out loud, "
                                  + "e.g. 'say Hello'")
-            mud.send_message(id, "  look           - Examines the "
+            mud.send_message(id, "  look            - Examines the "
                                  + "surroundings, e.g. 'look'")
-            mud.send_message(id, "  go <exit>      - Moves through the exit "
+            mud.send_message(id, "  go <exit>       - Moves through the exit "
                                  + "specified, e.g. 'go outside'")
             mud.send_message(id, "  emote <message> - Express some emotion or similar "
                                  "to the players in the room, e.g. 'emote gives you a hug'")
+            mud.send_message(id, "  who             - Prints a list of connected players")
+            mud.send_message(id, "  quit            - Quits the game")
 
         # 'say' command
         elif command == "say":
@@ -242,6 +246,13 @@ while True:
             else:
                 # send back an 'unknown exit' message
                 mud.send_message(id, "Unknown exit '{}'".format(ex))
+
+        elif command == "who":
+            mud.send_message(id, "Players:")
+            for pid in players:
+                mud.send_message(id, players[pid]["name"])
+        elif command == "quit":
+            mud.disconnect(id)
 
         # some other, unrecognised command
         else:
