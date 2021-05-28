@@ -35,19 +35,31 @@ rooms = {
     },
     "Outside": {
         "description": "You're standing outside a tavern. It's raining.",
-        "exits": {"inside": "Tavern"},
+        "exits": {"inside": "Tavern", "around the corner": "Around the corner"},
     },
     "Upstairs": {
         "description": "You are standing in front of 6 rooms, but all of them are hired. An window is open.",
-        "exits": {"Jump out of the window": "Sewer"},
+        "exits": {"jump out of the window": "Sewer", "downstairs": "Tavern"},
     },
     "Sewer": {
         "description": "You fell into a sewer, where the water drops from the roof. There's no ladder to climb up on.",
-        "exits": {"vent": "Secret_room"},
+        "exits": {"vent": "Secret room", "follow sewer": "Sewer end"},
     },
-    "Secret_room": {
-        "description": "No description",
+    "Secret room": {
+        "description": "You're in a grey room, with a ladder. You see much other stuff too. This looks like an storage.",
         "exits": {"vent": "Sewer"},
+    },
+    "Around the corner": {
+        "description": "You see a manhole, but no ladder.",
+        "exits": {"back": "Outside", "jump down": "Sewer"},
+    },
+    "Sewer end": {
+        "description": "The sewer ends here. You see a ladder to climb up on.",
+        "exits": {"back": "Sewer", "climb up": "Town"},
+    },
+    "Town": {
+        "description": "You are lost outside, but it's not raining anymore.",
+        "exits": {"climb down": "Sewer end", "try find around": "Town"},
     },
 }
 
